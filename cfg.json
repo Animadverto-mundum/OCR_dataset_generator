@@ -1,0 +1,22 @@
+{
+    "textPath": "data.txt",
+    "txtLengthLower": 5,
+    "txtLengthUpper": 6,
+    "fontFiles": [
+        "./font/11227206_ChangFangSong.ttf", 
+        "./font/FangZhengHeiTiJianTi-1.ttf", 
+        "./font/HYCuFangSongJ.ttf", 
+        "./font/simfang.ttf", 
+        "./font/fangsong,ttf"
+    ],
+
+    "fontColor": [[0, 0, 0]],
+    "isFontRotate": 1,
+    "isEachFontRotate": 1,
+    "rotatingAngle": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+    "isHorizontaVertical": 1,
+    "fontSize": [20, 40, 60],
+    "picBackgroundColor":[[255,255,255]],
+    "labelPath": "./label.txt",
+    "datasetPicsDir": "./dataset/" 
+}
