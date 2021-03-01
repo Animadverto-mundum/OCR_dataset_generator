@@ -7,16 +7,16 @@
         "./font/FangZhengHeiTiJianTi-1.ttf", 
         "./font/HYCuFangSongJ.ttf", 
         "./font/simfang.ttf", 
-        "./font/fangsong,ttf"
+        "./font/fangsong.ttf"
     ],
 
-    "fontColor": [[0, 0, 0]],
+    "fontColor": [[255, 255, 255],[204,10,207],[0,255,255],[0,255,0],[255,255,0],[0,163,218],[255,0,0]],
     "isFontRotate": 1,
     "isEachFontRotate": 1,
-    "rotatingAngle": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+    "rotatingAngle": [0, 30, 60, 90, 120, 150],
     "isHorizontaVertical": 1,
     "fontSize": [20, 40, 60],
-    "picBackgroundColor":[[255,255,255]],
+    "picBackgroundColor":[[0,0,0]],
     "labelPath": "./label.txt",
     "datasetPicsDir": "./dataset/" 
 }
