@@ -4,6 +4,12 @@ import json
 import random
 import os
 import cv2
+import numpy as np
+
+"""
+Noise generateing from
+https://www.cnblogs.com/wojianxin/p/12499928.html
+"""
 
 
 class Generator:
@@ -17,7 +23,13 @@ class Generator:
 
     def check(self):
         if os.listdir(self.settings["datasetPicsDir"]):
-            raise FileNotFoundError("Output dir NOT Empty")
+            print("Output dir NOT Empty")
+            print("Enter Y to clear dir and proceed:", end = '')
+            if input().strip() == 'Y':
+                for item in os.listdir(self.settings["datasetPicsDir"]):
+                    os.remove(os.path.join(self.settings["datasetPicsDir"], item))
+            else:
+                raise FileNotFoundError("Output dir NOT Empty")
         if not os.path.isfile(self.settings["textPath"]):
             raise FileNotFoundError("Plain text source NOT Found")
         for each in self.settings["fontFiles"]:
@@ -98,6 +110,16 @@ class Generator:
             # ready to return
         return im
 
+    def addNoise(self, pic:Image.Image):
+        if self.settings["gasussNoiseMean"] or self.settings["gasussNoiseVar"] or self.settings["saltPepperNoiseProb"]:
+            picArray = np.asarray(pic)
+            if self.settings["gasussNoiseMean"] or self.settings["gasussNoiseVar"]:
+                picArray = self.gasussNoise(picArray, self.settings["gasussNoiseMean"], self.settings["gasussNoiseVar"])
+            if self.settings["saltPepperNoiseProb"]:
+                picArray = self.saltPepperNoise(picArray, self.settings["saltPepperNoiseProb"])
+            pic = Image.fromarray(picArray)
+        return pic
+
     def save(self, index:int, pic:Image.Image, text:str):
         picPath = "%s%d.png" % (self.settings["datasetPicsDir"], index)
         pic.save(picPath)
@@ -109,7 +131,44 @@ class Generator:
             # generate string of random length
             length, text = self.generateRandomText()
             pic = self.generateOne(text=text)
+            pic = self.addNoise(pic)
             self.save(_, pic, text)
+
+    def saltPepperNoise(self, image:np.ndarray, prob=0):
+        '''
+        添加椒盐噪声
+        prob:噪声比例
+        '''
+        output = np.zeros(image.shape,np.uint8)
+        thres = 1 - prob
+        for i in range(image.shape[0]):
+            for j in range(image.shape[1]):
+                rdn = random.random()
+                if rdn < prob:
+                    output[i][j] = 0
+                elif rdn > thres:
+                    output[i][j] = 255
+                else:
+                    output[i][j] = image[i][j]
+        return output
+
+    def gasussNoise(self, image:np.ndarray, mean=0, var=0.001):
+        '''
+            添加高斯噪声
+            mean : 均值
+            var : 方差
+        '''
+        image = np.array(image/255, dtype=float)
+        noise = np.random.normal(mean, var ** 0.5, image.shape)
+        out = image + noise
+        if out.min() < 0:
+            low_clip = -1.
+        else:
+            low_clip = 0.
+        out = np.clip(out, low_clip, 1.0)
+        out = np.uint8(out*255)
+        #cv.imshow("gasuss", out)
+        return out
 
     def main(self):
         self.config()

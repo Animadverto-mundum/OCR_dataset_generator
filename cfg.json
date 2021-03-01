@@ -17,6 +17,9 @@
     "isHorizontaVertical": 1,
     "fontSize": [20, 40, 60],
     "picBackgroundColor":[[0,0,0]],
+    "gasussNoiseMean":0,
+    "gasussNoiseVar":0.00001,
+    "saltPepperNoiseProb":0.00001,
     "labelPath": "./label.txt",
     "datasetPicsDir": "./dataset/" 
 }
