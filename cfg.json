@@ -18,8 +18,11 @@
     "fontSize": [20, 40, 60],
     "picBackgroundColor":[[0,0,0]],
     "gasussNoiseMean":0,
-    "gasussNoiseVar":0.00001,
-    "saltPepperNoiseProb":0.00001,
+    "gasussNoiseVar":0.0000025,
+    "saltPepperNoiseProb":0.003,
+    "allowUnderline":1,
+    "allowLinebox":1,
+    "lineColor":[],
     "labelPath": "./label.txt",
     "datasetPicsDir": "./dataset/" 
 }

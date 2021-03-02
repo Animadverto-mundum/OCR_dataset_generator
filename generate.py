@@ -120,6 +120,39 @@ class Generator:
             pic = Image.fromarray(picArray)
         return pic
 
+    def addLine(self, pic:Image.Image):
+        lineType = 0
+        if self.settings["allowUnderline"]:
+            # prob 1/2
+            lineType = random.randint(0, 1)
+            if self.settings["allowLinebox"] and not lineType:
+                # prob 1/4
+                lineType = random.randint(0, 1) * 2
+        if lineType:
+            picDraw = ImageDraw.Draw(pic)
+            if self.settings["lineColor"]:
+                lineColor = tuple(random.choice(self.settings["lineColor"]))
+            else:
+                lineColor = tuple(255 - np.array(pic.getpixel((0,0))))
+            if lineType == 1:
+                y = pic.height * 0.95
+                x0 = pic.width * 0.05
+                x1 = pic.width * 0.95
+                picDraw.line((x0, y, x1, y), lineColor)
+            elif lineType == 2:
+                x0 = pic.width * 0.05
+                x1 = pic.width * 0.95
+                y0 = pic.height * 0.05
+                y1 = pic.height * 0.95
+                picDraw.line((x0, y0, x1, y0), lineColor)
+                picDraw.line((x1, y0, x1, y1), lineColor)
+                picDraw.line((x1, y1, x0, y1), lineColor)
+                picDraw.line((x0, y1, x0, y0), lineColor)
+        elif lineType == 0:
+            return pic
+        return pic
+
+
     def save(self, index:int, pic:Image.Image, text:str):
         picPath = "%s%d.png" % (self.settings["datasetPicsDir"], index)
         pic.save(picPath)
@@ -132,6 +165,7 @@ class Generator:
             length, text = self.generateRandomText()
             pic = self.generateOne(text=text)
             pic = self.addNoise(pic)
+            pic = self.addLine(pic)
             self.save(_, pic, text)
 
     def saltPepperNoise(self, image:np.ndarray, prob=0):
@@ -174,7 +208,7 @@ class Generator:
         self.config()
         self.check()
         self.prepare()
-        self.generate(10)
+        self.generate(100)
 
 
 Generator().main()
