@@ -12,8 +12,8 @@
 
     "fontColor": [[255, 255, 255],[204,10,207],[0,255,255],[0,255,0],[255,255,0],[0,163,218],[255,0,0]],
     "isFontRotate": 1,
-    "isEachFontRotate": 1,
-    "rotatingAngle": [0, 30, 60, 90, 120, 150],
+    "isEachFontRotate": 0,
+    "rotatingAngle": [0, 30, 60, 90],
     "isHorizontaVertical": 1,
     "fontSize": [20, 40, 60],
     "picBackgroundColor":[[0,0,0]],
@@ -22,6 +22,8 @@
     "saltPepperNoiseProb":0.003,
     "allowUnderline":1,
     "allowLinebox":1,
+    "GaussianBlurRadius":0,
+    "BoxBlurRadiux":0,
     "lineColor":[],
     "labelPath": "./label.txt",
     "datasetPicsDir": "./dataset/" 

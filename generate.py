@@ -152,6 +152,12 @@ class Generator:
             return pic
         return pic
 
+    def addBlur(self, pic:Image.Image):
+        if self.settings["GaussianBlurRadius"]:
+            pic = pic.filter(ImageFilter.GaussianBlur(self.settings["GaussianBlurRadius"]))
+        if self.settings["BoxBlurRadiux"]:
+            pic = pic.filter(ImageFilter.BoxBlur(self.settings["BoxBlurRadiux"]))
+        return pic
 
     def save(self, index:int, pic:Image.Image, text:str):
         picPath = "%s%d.png" % (self.settings["datasetPicsDir"], index)
@@ -164,8 +170,9 @@ class Generator:
             # generate string of random length
             length, text = self.generateRandomText()
             pic = self.generateOne(text=text)
-            pic = self.addNoise(pic)
             pic = self.addLine(pic)
+            pic = self.addNoise(pic)
+            pic = self.addBlur(pic)
             self.save(_, pic, text)
 
     def saltPepperNoise(self, image:np.ndarray, prob=0):
